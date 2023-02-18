@@ -24,7 +24,7 @@ async function createTask(req, res, next) {
     //return the successful request to the user 
     res.json({
         success: true,
-        blogs: savedData
+        listItem: savedData
     });
 
   } catch (e) {
@@ -37,7 +37,25 @@ async function createTask(req, res, next) {
 }
 
 //Create Multiple Tasks
+async function createMultipleTasks(req,res){
+  try{
 
+    const multipleListItems = req.body;
+    const savedData = await ListItem.create(multipleListItems); 
+    
+    //return the successful request to the user 
+    res.json({
+      success: true,
+      listItem: savedData
+    }); 
+  }catch(e){
+    console.log(typeof e);
+    console.log(e);
+    res.json({
+      error: e.toString(),
+    });
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////
 //Read
@@ -45,21 +63,24 @@ async function createTask(req, res, next) {
 
 //Read All
 async function getAllTasks(req, res){
-      //query todo list
-      try {
-        const listItems = await ListItem.find({});
-        res.json({listItems: listItems });
-      }catch(e){
+  //query todo list
+  try {
+    const listItems = await ListItem.find({});
+    res.json({listItems: listItems });
+  }catch(e){
         console.log(e);
-      }
+  }
 }
 
 //Read One
 async function getOneTask(req, res){
+
   //query todo list
   try {
-    const listItems = await ListItem.find({name:req.params.name});
-    res.json({listItems: listItems });
+    const listItem = await ListItem.find({name:req.params.name}).exec();
+    
+    console.log(listItem)
+    res.json({success: true, listItem: listItem });
   }catch(e){
     console.log(e);
   }
@@ -137,6 +158,7 @@ async function deleteMultipleTasks(req,res){
 
   module.exports = {
     createTask,
+    createMultipleTasks,
     getAllTasks,
     getOneTask,
     updateOneTask,

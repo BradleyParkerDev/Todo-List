@@ -7,6 +7,7 @@ const todoListController = require('../controllers/todoListController');
 
 //create 
 router.post("/create-task", todoListController.createTask);
+router.post("/create-multi", todoListController.createMultipleTasks);
 
 //Read
 router.get("/all", todoListController.getAllTasks);
