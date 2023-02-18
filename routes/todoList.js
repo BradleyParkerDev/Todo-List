@@ -17,6 +17,7 @@ router.put("/update-task/:name",todoListController.updateOneTask);
 
 //Delete
 router.delete("/delete-one/:name", todoListController.deleteOneTask);
+router.delete("/delete-multi/", todoListController.deleteMultipleTasks);
 
 
 

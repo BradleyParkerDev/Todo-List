@@ -39,7 +39,6 @@ async function createTask(req, res, next) {
 //Create Multiple Tasks
 
 
-
 ///////////////////////////////////////////////////////////////////////////
 //Read
 ///////////////////////////////////////////////////////////////////////////
@@ -70,6 +69,7 @@ async function getOneTask(req, res){
 ///////////////////////////////////////////////////////////////////////////
 //Update
 ///////////////////////////////////////////////////////////////////////////
+
 //Update One
 async function updateOneTask(req,res){
   try {
@@ -91,13 +91,11 @@ async function updateOneTask(req,res){
   }
 }
 
-//Update Many
-
-
 
 ///////////////////////////////////////////////////////////////////////////
 //Delete
 ///////////////////////////////////////////////////////////////////////////
+
 //Delete One
 async function deleteOneTask(req,res){
   try {
@@ -112,37 +110,36 @@ async function deleteOneTask(req,res){
       message: `List item deleted.`
   })
 }
-//Delete Multiple Tasks
 
-// // router.delete('/delete-multi', async function (req, res) {
-// // 	try {
-      
-// //       const idsToDelete = req.body
+//Delete Multiple
+async function deleteMultipleTasks(req,res){
+  try{
+    const namesToDelete = req.body
+    if (namesToDelete.length < 1){
+      throw Error("names to delete empty!");
+    }
+    await ListItem.deleteMany({
+      name: {
+        $in: namesToDelete
+      }
+    });
+  }catch(err){
+    console.log(err);
+    throw err;
+  }
 
-// //       if (idsToDelete.length < 1){
-// //         throw Error("ids to delete empty!");
-// //       }
-// //       const deleteResult = await db().collection("sample_blogs").deleteMany({
-// //         id: {
-// //           $in: idsToDelete
-// //         }
-// //       })
-  
-// //   } catch (e) {
-// //     res.send(e);
-// //   }
-// // 	res.json({
-// // 		success: true,
-// // 		deleteResult: deleteResult
-// // 	})
-// // })
+  res.json({
+    success: true,
+    message: 'List items deleted'
+  })
 
-
+}
 
   module.exports = {
     createTask,
     getAllTasks,
     getOneTask,
     updateOneTask,
-    deleteOneTask
+    deleteOneTask,
+    deleteMultipleTasks
   };
