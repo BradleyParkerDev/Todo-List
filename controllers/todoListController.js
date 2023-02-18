@@ -74,12 +74,9 @@ async function getAllTasks(req, res){
 
 //Read One
 async function getOneTask(req, res){
-
   //query todo list
   try {
     const listItem = await ListItem.find({name:req.params.name}).exec();
-    
-    console.log(listItem)
     res.json({success: true, listItem: listItem });
   }catch(e){
     console.log(e);
@@ -155,6 +152,7 @@ async function deleteMultipleTasks(req,res){
   })
 
 }
+
 
   module.exports = {
     createTask,
